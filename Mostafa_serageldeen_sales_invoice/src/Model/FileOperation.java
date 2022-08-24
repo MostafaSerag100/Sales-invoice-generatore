@@ -1,5 +1,7 @@
 package Model;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -27,12 +29,20 @@ public class FileOperation
         try {
 
             /*Read file from specified path*/
-            Scanner inputStream2 = new Scanner(new File("src\\CSV_files\\InvoiceHeader.csv"));
+            JFileChooser FileInvoiceHeaders = new JFileChooser(new File("src\\CSV_files\\"));
 
-            /*Read file from specified path*/
-            Scanner inputStream = new Scanner(new File("src\\CSV_files\\InvoiceLine.csv"));//src\CSV_files\InvoiceHeader.csv
+            /*User chooses file*/
+            JFileChooser FileInvoiceLines = new JFileChooser(new File("src\\CSV_files\\"));//src\CSV_files\InvoiceHeader.csv
 
 
+            /*Show File chooser Menu to user*/
+            FileInvoiceHeaders.showSaveDialog(null);
+            FileInvoiceLines.showSaveDialog(null);
+
+
+            Scanner inputStream = new Scanner(FileInvoiceLines.getSelectedFile());
+
+            Scanner inputStream2 = new Scanner(FileInvoiceHeaders.getSelectedFile());
 
             /*Read All lines in InvoiceLine.Csv file*/
             while (inputStream.hasNextLine())
@@ -115,7 +125,8 @@ public class FileOperation
 
         catch(Exception e)
         {
-            System.out.println("system not found");
+
+            JOptionPane.showMessageDialog(null , "Files not found");
             e.printStackTrace();
         }
 
@@ -133,9 +144,18 @@ public class FileOperation
 
         try
         {
+
+            JFileChooser HeaderFileChooser = new JFileChooser("src\\CSV_files\\");
+            JFileChooser LineFileChooser = new JFileChooser("src\\CSV_files\\");
+
+            /*Show File chooser Menu to user*/
+            HeaderFileChooser.showSaveDialog(null);
+            LineFileChooser.showSaveDialog(null);
+
+
             /*Open file path and read file*/
-            File headerFile = new File("src\\CSV_files\\InvoiceHeader.csv");
-            File itemsFile = new File("src\\CSV_files\\InvoiceLine.csv");
+            File headerFile = HeaderFileChooser.getSelectedFile();
+            File itemsFile =  LineFileChooser.getSelectedFile();
 
             /*The print writer that will print updates to file*/
             PrintWriter outToHeader = new PrintWriter(headerFile);
@@ -177,6 +197,9 @@ public class FileOperation
         {
 
             /*Show Dialog File not Found*/
+
+            JOptionPane.showMessageDialog(null , "Files not found");
+
             e.printStackTrace();
 
         }
